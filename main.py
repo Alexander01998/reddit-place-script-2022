@@ -440,7 +440,9 @@ def task(credentials_index):
                     + "-------\n"
                     + update_str
                 )
-
+            if time_until_next_draw % 60 == 0 and credentials_index == 0:
+                print("Updating image...")
+                imgUpdate()
             # refresh access token if necessary
             if (
                 access_tokens[credentials_index] is None
