@@ -94,6 +94,14 @@ image_height = None
 # first_run = True
 first_run_counter = 0
 
+# Updates the image automagically
+
+def imgUpdate():
+	img_data = requests.get(
+		"https://raw.githubusercontent.com/Alexander01998/reddit-place-script-2022/main/image.jpg").content
+	with open("image.jpg", "wb") as handler:
+		handler.write(img_data)
+
 # function to convert rgb tuple to hexadecimal string
 def rgb_to_hex(rgb):
     return ("#%02x%02x%02x" % rgb).upper()
@@ -239,28 +247,61 @@ def get_board(access_token_in):
             }
         )
     )
+    ws.send(
+		json.dumps(
+			{
+				"id": "2",
+				"type": "start",
+				"payload": {
+					"variables": {
+						"input": {
+							"channel": {
+								"teamOwner": "AFD2022",
+								"category": "CANVAS",
+								"tag": "1",
+							}
+						}
+					},
+					"extensions": {},
+					"operationName": "replace",
+					"query": "subscription replace($input: SubscribeInput!) {\n  subscribe(input: $input) {\n    id\n    ... on BasicMessage {\n      data {\n        __typename\n        ... on FullFrameMessageData {\n          __typename\n          name\n          timestamp\n        }\n        ... on DiffFrameMessageData {\n          __typename\n          name\n          currentTimestamp\n          previousTimestamp\n        }\n      }\n      __typename\n    }\n    __typename\n  }\n}\n",
+				},
+			}
+		)
+	)
 
-    file = ""
+    files = []
     while True:
         temp = json.loads(ws.recv())
         if temp["type"] == "data":
             msg = temp["payload"]["data"]["subscribe"]
             if msg["data"]["__typename"] == "FullFrameMessageData":
-                file = msg["data"]["name"]
-                break
-
+                files.append(msg["data"]["name"])
+                print("got img", msg["data"]["name"])
+                if len(files) >= 2:
+                    break
+    
     ws.close()
 
-    boardimg = BytesIO(requests.get(file, stream=True).content)
+    boardimg1 = BytesIO(requests.get(files[0], stream=True).content)
+    boardimg2 = BytesIO(requests.get(files[1], stream=True).content)
     print("Got image:", file)
 
-    return boardimg
+    return [boardimg1, boardimg2]
 
 
-def get_unset_pixel(boardimg, x, y):
+def get_unset_pixel(boardimgs, x, y):
     pixel_x_start = int(os.getenv("ENV_DRAW_X_START"))
     pixel_y_start = int(os.getenv("ENV_DRAW_Y_START"))
-    pix2 = Image.open(boardimg).convert("RGB").load()
+
+    new_img = Image.new('RGB', (2000, 1000))
+    x_offset = 0
+    for boardimg in boardimgs:
+        im = Image.open(boardimg)
+        new_img.paste(im, (x_offset,0))
+        x_offset += 1000
+    pix2 = new_img.convert("RGB").load()
+
     num_loops = 0
     while True:
         x += 1
