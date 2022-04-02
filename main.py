@@ -285,7 +285,6 @@ def get_board(access_token_in):
 
     boardimg1 = BytesIO(requests.get(files[0], stream=True).content)
     boardimg2 = BytesIO(requests.get(files[1], stream=True).content)
-    print("Got image:", file)
 
     return [boardimg1, boardimg2]
 
