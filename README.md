@@ -25,10 +25,14 @@ You need to generate an app client id and app secret key for each account in ord
 Steps:
 
 1. Visit <https://www.reddit.com/prefs/apps>
-2. Click "create (another) app" button at very bottom
-3. Select the "script" option and fill in the fields with anything
+2. Click "create (another) app" button at very bottom  
+   ![image](https://user-images.githubusercontent.com/10100202/161387338-4c7ff5fd-5732-47ee-9fb6-53378171809e.png)
+4. Select the "script" option and fill in the fields with anything  
+   ![image](https://user-images.githubusercontent.com/10100202/161387493-ab741d86-ff6d-4536-b373-f240aaca76c7.png)
 
 If you don't want to create a development app for each account, you can add each username as a developer in the developer app settings. You will need to duplicate the client ID and secret in .env, though.
+
+![image](https://user-images.githubusercontent.com/10100202/161387768-26058cd1-2030-4218-b7ef-a05a66dc8499.png)
 
 ## Python Package Requirements
 
