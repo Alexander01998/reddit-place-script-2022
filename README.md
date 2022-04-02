@@ -41,6 +41,7 @@ Install requirements from 'requirements.txt' file.
 ```shell
 pip3 install -r requirements.txt
 ```
+NOTE: This can be run from CMD (Start > Run 'cmd').
 
 ## Get Started
 
@@ -64,6 +65,7 @@ Change image.jpg to specify what image to draw. One pixel is drawn every 5 minut
 ```python
 python3 main.py
 ```
+NOTE: You'll need to `cd` into the correct directory i.e. `cd Downloads\reddit-place-script-2022-main\reddit-place-script-2022-main` if you extracted the script to your Downloads folder.
 
 ## Multiple Workers
 
