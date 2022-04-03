@@ -1,3 +1,8 @@
+# THIS BOT IS OUTDATED! Use this instead: https://github.com/Mubelotix/placebot
+
+
+---
+
 # Reddit Place Script 2022
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
